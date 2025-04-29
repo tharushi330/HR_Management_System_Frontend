@@ -99,7 +99,7 @@ class EmployeeForm extends Component {
       <div
         className="container mt-4"
         style={{
-          backgroundColor: id ? "#f8d7da" : "#d4edda", // Red for update, Green for add
+          backgroundColor: id ? "#f8d7da" : "#d4edda", 
           padding: "20px",
           borderRadius: "8px",
         }}
