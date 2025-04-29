@@ -41,8 +41,8 @@ class EmployeeList extends React.Component {
     const { navigate } = this.props;
 
     return (
-      <div className="container mt-4">
-        <h2>Employee List</h2>
+      <div className="container mt-4 bg-info p-4 rounded">
+        <h2 className="mb-4">Employee List</h2>
         <Button variant="primary" className="mb-3" onClick={() => navigate("/employee")}>
           Add New Employee
         </Button>
@@ -92,4 +92,3 @@ class EmployeeList extends React.Component {
 }
 
 export default withRouter(EmployeeList);
-

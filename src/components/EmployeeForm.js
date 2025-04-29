@@ -18,7 +18,7 @@ class EmployeeForm extends Component {
       name: "",
       email: "",
       department: "",
-      searchId: "", 
+      searchId: "",
     };
   }
 
@@ -65,42 +65,47 @@ class EmployeeForm extends Component {
     e.preventDefault();
     const { id, navigate } = this.props;
     const { name, email, department } = this.state;
-  
-    if (!department) {
-      alert("Please select a department");
+
+    if (!name || !email || !department) {
+      alert("All fields are required. Please fill in all fields.");
       return;
     }
-  
+
     const payload = { name, email, department };
     if (id) payload.id = id;
-  
+
     const url = id
-      ? `http://localhost:8080/api/employees/update/${id}`  
-      : "http://localhost:8080/api/employees/add";          
-  
-    const requestMethod = id ? axios.put : axios.post; 
-  
-    requestMethod(url, payload)  
+      ? `http://localhost:8080/api/employees/update/${id}`
+      : "http://localhost:8080/api/employees/add";
+
+    const requestMethod = id ? axios.put : axios.post;
+
+    requestMethod(url, payload)
       .then(() => {
         alert(`Employee ${id ? "updated" : "added"} successfully!`);
-        navigate("/");  
+        navigate("/");
       })
       .catch((error) => {
         console.error("Error saving employee:", error);
-        alert("An error occurred while saving the employee. Please try again.");
+        alert("Failed. Please try again.");
       });
   };
-  
 
   render() {
     const { name, email, department, searchId } = this.state;
     const { id, navigate } = this.props;
 
     return (
-      <div className="container mt-4">
+      <div
+        className="container mt-4"
+        style={{
+          backgroundColor: id ? "#f8d7da" : "#d4edda", // Red for update, Green for add
+          padding: "20px",
+          borderRadius: "8px",
+        }}
+      >
         <h2>{id ? "Edit Employee" : "Add Employee"}</h2>
 
-        
         {!id && (
           <Form.Group className="mb-3">
             <Form.Label>Search by Employee ID</Form.Label>
@@ -119,7 +124,6 @@ class EmployeeForm extends Component {
           </Form.Group>
         )}
 
-        
         <Form onSubmit={this.handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
