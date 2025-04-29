@@ -3,7 +3,6 @@ import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
-// Wrapper to pass router params and navigation to class component
 function WithRouter(ComponentWrapped) {
   return function Wrapper(props) {
     const params = useParams();
@@ -19,7 +18,7 @@ class EmployeeForm extends Component {
       name: "",
       email: "",
       department: "",
-      searchId: "", // for manual ID search
+      searchId: "", 
     };
   }
 
@@ -66,30 +65,32 @@ class EmployeeForm extends Component {
     e.preventDefault();
     const { id, navigate } = this.props;
     const { name, email, department } = this.state;
-
+  
     if (!department) {
       alert("Please select a department");
       return;
     }
-
+  
     const payload = { name, email, department };
     if (id) payload.id = id;
-
+  
     const url = id
-      ? "http://localhost:8080/api/employees/update"
-      : "http://localhost:8080/api/employees/add";
-
-    axios
-      .post(url, payload)
+      ? `http://localhost:8080/api/employees/update/${id}`  
+      : "http://localhost:8080/api/employees/add";          
+  
+    const requestMethod = id ? axios.put : axios.post; 
+  
+    requestMethod(url, payload)  
       .then(() => {
         alert(`Employee ${id ? "updated" : "added"} successfully!`);
-        navigate("/");
+        navigate("/");  
       })
       .catch((error) => {
         console.error("Error saving employee:", error);
         alert("An error occurred while saving the employee. Please try again.");
       });
   };
+  
 
   render() {
     const { name, email, department, searchId } = this.state;
@@ -99,7 +100,7 @@ class EmployeeForm extends Component {
       <div className="container mt-4">
         <h2>{id ? "Edit Employee" : "Add Employee"}</h2>
 
-        {/* Manual Search Section */}
+        
         {!id && (
           <Form.Group className="mb-3">
             <Form.Label>Search by Employee ID</Form.Label>
@@ -118,7 +119,7 @@ class EmployeeForm extends Component {
           </Form.Group>
         )}
 
-        {/* Employee Form */}
+        
         <Form onSubmit={this.handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
